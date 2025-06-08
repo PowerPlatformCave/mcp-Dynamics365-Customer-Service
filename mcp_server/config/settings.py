@@ -1,6 +1,9 @@
 import os
 from dataclasses import dataclass
 
+from dotenv import load_dotenv  
+load_dotenv() 
+
 @dataclass
 class Settings:
     dynamics_tenant_id: str = os.getenv("DYNAMICS_TENANT_ID", "")
