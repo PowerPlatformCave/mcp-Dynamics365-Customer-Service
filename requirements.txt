@@ -5,3 +5,4 @@ pydantic
 pytest
 pytest-asyncio
 python-dotenv
+mcp[cli]
