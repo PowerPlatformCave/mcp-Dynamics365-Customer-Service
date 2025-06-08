@@ -1,0 +1,141 @@
+openapi: 3.0.3
+info:
+  title: Dynamics 365 Incident MCP API
+  version: '1.0'
+  description: API for Dynamics 365 Customer Service incidents using MCP
+servers:
+  - url: http://localhost:8000
+paths:
+  /incident/create:
+    post:
+      summary: Create a new incident
+      operationId: createIncident
+      tags:
+        - Incident Management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidentCreateRequest'
+      responses:
+        '200':
+          description: Incident created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncidentResponse'
+  /incident/status:
+    post:
+      summary: Get the status of an incident
+      operationId: incidentStatus
+      tags:
+        - Incident Management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidentStatusRequest'
+      responses:
+        '200':
+          description: Incident status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncidentStatusResponse'
+  /incident/update:
+    post:
+      summary: Update an incident
+      operationId: updateIncident
+      tags:
+        - Incident Management
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidentUpdateRequest'
+      responses:
+        '200':
+          description: Incident updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncidentResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    IncidentCreateRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+        description:
+          type: string
+      required:
+        - userId
+        - description
+    IncidentStatusRequest:
+      type: object
+      properties:
+        incidentId:
+          type: string
+      required:
+        - incidentId
+    IncidentUpdateRequest:
+      type: object
+      properties:
+        incidentId:
+          type: string
+        updateDetails:
+          type: string
+      required:
+        - incidentId
+        - updateDetails
+    IncidentResponse:
+      type: object
+      properties:
+        incidentId:
+          type: string
+        status:
+          type: string
+        message:
+          type: string
+      required:
+        - incidentId
+        - status
+        - message
+    IncidentStatusResponse:
+      type: object
+      properties:
+        incidentId:
+          type: string
+        status:
+          type: string
+        detail:
+          type: string
+      required:
+        - incidentId
+        - status
+        - detail
+security:
+  - bearerAuth: []
+x-ms-copilot:
+  authentication:
+    type: oauth2
+    provider: azureAD
+  actions:
+    - name: createIncident
+      description: Create a new incident for a user
+      operationId: createIncident
+    - name: incidentStatus
+      description: Get the status for a specific incident
+      operationId: incidentStatus
+    - name: updateIncident
+      description: Update the details of an incident
+      operationId: updateIncident
